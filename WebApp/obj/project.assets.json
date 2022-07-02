@@ -9871,19 +9871,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kotni\\.nuget\\packages\\": {}
+    "C:\\Users\\maryl\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\CaseStudy\\WebApp\\WebApp\\WebApp.csproj",
+      "projectUniqueName": "C:\\Users\\maryl\\Documents\\DELOITTE\\Projects\\Deloitte-Case-Study\\WebApp\\WebApp.csproj",
       "projectName": "WebApp",
-      "projectPath": "D:\\CaseStudy\\WebApp\\WebApp\\WebApp.csproj",
-      "packagesPath": "C:\\Users\\kotni\\.nuget\\packages\\",
-      "outputPath": "D:\\CaseStudy\\WebApp\\WebApp\\obj\\",
+      "projectPath": "C:\\Users\\maryl\\Documents\\DELOITTE\\Projects\\Deloitte-Case-Study\\WebApp\\WebApp.csproj",
+      "packagesPath": "C:\\Users\\maryl\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\maryl\\Documents\\DELOITTE\\Projects\\Deloitte-Case-Study\\WebApp\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\kotni\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\maryl\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
