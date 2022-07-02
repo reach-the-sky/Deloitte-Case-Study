@@ -4,20 +4,24 @@
 @{
 
 }
-<h2>File Metadata</h2>
+@model IEnumerable<File>
+<p class="bg-black text-white">File Metadata</p>
 <table>
     <tbody>
-        <tr>
-            <td>Created By:</td>
-            <td>JohnDoe</td>
-        </tr>
-        <tr>
-            <td>Created On:</td>
-            <td>1/1/2022</td>
-        </tr>
-        <tr>
-            <td>File Info:</td>
-            <td>casestudy.pbix</td>
-        </tr>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td><span class="badge bg-primary w-100 text-left">Created By:</span></td>
+                <td>JohnDoe</td>
+            </tr>
+            <tr>
+                <td><span class="badge bg-primary">Created On:</span></td>
+                <td>@obj.UpdatedDate</td>
+            </tr>
+            <tr>
+                <td><span class="badge bg-primary w-100 text-left">File Info:</span></td>
+                <td>@obj.Name</td>
+            </tr>
+        }
     </tbody>
 </table>

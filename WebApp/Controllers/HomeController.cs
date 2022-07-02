@@ -26,10 +26,11 @@ namespace WebApp.Controllers
             return View(FileList);
         }
 
-        //public IActionResult FileMetadata()
-        //{
-        //    return PartialView("_")
-        //}
+        public IActionResult FileMetadata(int file)
+        {
+            IEnumerable<File> CurrentFile = _files.File.Where(x => x.Id == file);
+            return PartialView("_FileMetadata", CurrentFile);
+        }
 
         public IActionResult Privacy()
         {
