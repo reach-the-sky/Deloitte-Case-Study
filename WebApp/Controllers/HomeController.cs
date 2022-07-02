@@ -26,6 +26,11 @@ namespace WebApp.Controllers
             return View(FileList);
         }
 
+        //public IActionResult FileMetadata()
+        //{
+        //    return PartialView("_")
+        //}
+
         public IActionResult Privacy()
         {
             return View();
