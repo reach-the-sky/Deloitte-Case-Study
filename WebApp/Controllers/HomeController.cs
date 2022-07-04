@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using WebApp.Data;
 using WebApp.Models;
-using File = WebApp.Models.File;
+using File = WebApp.Models.FileModel;
 
 namespace WebApp.Controllers
 {
@@ -22,19 +22,14 @@ namespace WebApp.Controllers
         {
             // Filter the files for a the logged in user
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            IEnumerable<File> FileList = _files.File.Where(x => x.UserId == userId);
+            IEnumerable<File>? FileList = _files.File?.Where(x => x.UserId == userId);
             return View(FileList);
         }
 
         public IActionResult FileMetadata(int file)
         {
-            IEnumerable<File> CurrentFile = _files.File.Where(x => x.Id == file);
+            IEnumerable<File>? CurrentFile = _files.File?.Where(x => x.Id == file);
             return PartialView("_FileMetadata", CurrentFile);
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

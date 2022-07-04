@@ -9,6 +9,6 @@ namespace WebApp.Data
         {
         }
 
-        public DbSet<WebApp.Models.File>? File { get; set; }
+        public DbSet<WebApp.Models.FileModel>? File { get; set; }
     }
 }

@@ -4,24 +4,25 @@
 @{
 
 }
-@model IEnumerable<File>
+@model IEnumerable<FileModel>
 <p class="bg-black text-white">File Metadata</p>
 <table>
     <tbody>
         @foreach (var obj in Model)
         {
             <tr>
-                <td><span class="badge bg-primary w-100 text-left">Created By:</span></td>
-                <td>JohnDoe</td>
+                <td><span class="badge bg-primary w-100 text-left">File Name:</span></td>
+                <td>@obj.Name</td>
             </tr>
             <tr>
                 <td><span class="badge bg-primary">Created On:</span></td>
-                <td>@obj.UpdatedDate</td>
+                <td>@obj.UpdatedDate.ToString("dd-MM-yy h:mm tt")</td>
             </tr>
             <tr>
-                <td><span class="badge bg-primary w-100 text-left">File Info:</span></td>
-                <td>@obj.Name</td>
+                <td><span class="badge bg-primary w-100 text-left">Size:</span></td>
+                <td>@(obj.Size / 1024) KB</td>
             </tr>
         }
     </tbody>
 </table>
+
