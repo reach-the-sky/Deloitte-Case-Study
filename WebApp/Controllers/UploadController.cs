@@ -34,37 +34,49 @@ namespace WebApp.Controllers
         [HttpPost]
         public async Task<ActionResult> UploadFile(FormModel model)
         {
-
-            List<IFormFile> files = model.files;
-            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var filePaths = new List<string>();
-            foreach (IFormFile formFile in files)
+            try
             {
-                if (formFile.Length > 0)
-                {
-                    string filePath = Path.Combine(Path.GetFullPath("UploadedFiles"), userId + Path.GetFileName(formFile.FileName));
-                    filePaths.Add(filePath);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
+                List<IFormFile> files = model.files;
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                    _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
-                    var f = new WebApp.Models.File()
+                var filePaths = new List<string>();
+                foreach (IFormFile formFile in files)
+                {
+                    if (formFile.Length > 0)
                     {
-                        Name = formFile.FileName,
-                        Extension = formFile.ContentType,
-                        UpdatedDate = model.metadata,
-                        Size = (int)formFile.Length,
-                        Path = Path.GetFileName(filePath),
-                        UserId = userId,
-                    };
-                    _context.Add(f);
-                    _context.SaveChanges();
+                        string filePath = Path.Combine(Path.GetFullPath("UploadedFiles"), userId + Path.GetFileName(formFile.FileName));
+                        filePaths.Add(filePath);
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await formFile.CopyToAsync(stream);
+                        }
+
+                        _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
+                        var f = new WebApp.Models.FileModel()
+                        {
+                            Name = formFile.FileName,
+                            Extension = formFile.ContentType,
+                            UpdatedDate = model.metadata,
+                            Size = (int)formFile.Length,
+                            Path = Path.GetFileName(filePath),
+                            UserId = userId,
+                        };
+                        _context.Add(f);
+                        _context.SaveChanges();
+                    }
                 }
+                return View();
             }
-            return View();
+            catch
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

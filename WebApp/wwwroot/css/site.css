@@ -16,3 +16,7 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+td{
+    padding: 0 15px; 
+}

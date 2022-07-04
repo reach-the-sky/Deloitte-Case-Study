@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-@model IEnumerable<File>
+@model IEnumerable<FileModel>
 
 <script>
 
@@ -48,7 +48,6 @@ else
         <p>Login or Register to use the Data Analytics Portal</p>
     </div>
 }
-
 <script>
     var showMetadata = function(e, fileId) {
         var url = "/Home/FileMetadata?file=" + fileId;
@@ -58,4 +57,3 @@ else
 
     }
 </script>
-
