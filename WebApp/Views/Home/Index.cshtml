@@ -1,8 +1,61 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
     ViewData["Title"] = "Home Page";
 }
+@model IEnumerable<File>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Upload your file</a>.</p>
-</div>
+<script>
+
+</script>
+
+@*Only show uploded files if the user is logged in*@
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome @User.Identity.Name</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <p class="bg-black text-white">Your Files</p>
+                    @*Check if the User has any files uploaded*@
+                        @if (!Model.Any())
+                    {
+                        <span>You do not have any files, to upload files go to the upload section.</span>
+                    }
+                    else
+                    {
+                        <div class="list-group">
+                            @foreach (var obj in Model)
+                            {
+                                <li class="list-group-item list-group-item-action" onclick="showMetadata(this, @obj.Id)">@obj.Name</li>
+                            }
+                        </div>
+                    }
+
+                </div>
+                <div id="metadata" class="col">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Login or Register to use the Data Analytics Portal</p>
+    </div>
+}
+
+<script>
+    var showMetadata = function(e, fileId) {
+        var url = "/Home/FileMetadata?file=" + fileId;
+        $("li").removeClass("active");
+        e.classList.add("active");
+        $("#metadata").load(url);
+
+    }
+</script>
+

@@ -1,0 +1,27 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+@model IEnumerable<File>
+<p class="bg-black text-white">File Metadata</p>
+<table>
+    <tbody>
+        @foreach (var obj in Model)
+        {
+            <tr>
+                <td><span class="badge bg-primary w-100 text-left">Created By:</span></td>
+                <td>JohnDoe</td>
+            </tr>
+            <tr>
+                <td><span class="badge bg-primary">Created On:</span></td>
+                <td>@obj.UpdatedDate</td>
+            </tr>
+            <tr>
+                <td><span class="badge bg-primary w-100 text-left">File Info:</span></td>
+                <td>@obj.Name</td>
+            </tr>
+        }
+    </tbody>
+</table>
