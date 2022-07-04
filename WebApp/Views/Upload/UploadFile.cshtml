@@ -7,14 +7,10 @@
 
 <form method="post" enctype="multipart/form-data" asp-controller="Upload" asp-action="UploadFile" onload="getFileDate()">
     <div class="form-group">
-        <div class="col-md-10">
-            <p>Upload one or more files using this form:</p>
-            <input type="file" name="files" id="myFile" onchange="getFileDate()" />
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-10">
-            <input type="submit" value="Upload" />
+        <p>Upload one or more files using this form:</p>
+        <div class="input-group">
+            <input class="form-control" type="file" name="files" id="myFile" onchange="getFileDate()" />
+            <button class="btn btn-primary" type="submit" value="Upload">submit</button>
         </div>
     </div>
     <input name="metadata" type="datetime-local" id="metadata" hidden/>
