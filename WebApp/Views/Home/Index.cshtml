@@ -48,12 +48,3 @@ else
         <p>Login or Register to use the Data Analytics Portal</p>
     </div>
 }
-<script>
-    var showMetadata = function(e, fileId) {
-        var url = "/Home/FileMetadata?file=" + fileId;
-        $("a.list-group-item.active").removeClass("active");
-        e.classList.add("active");
-        $("#metadata").load(url);
-
-    }
-</script>
