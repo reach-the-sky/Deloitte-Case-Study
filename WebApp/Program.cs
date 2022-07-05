@@ -3,7 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
+var authenticationConnectionString = builder.Configuration.GetConnectionString("AuthenticationDBConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
+var fileConnectionString = builder.Configuration.GetConnectionString("FileDBConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 
 //builder.Services.AddDbContext<ApplicationDbContext>(options =>
 //    options.UseSqlServer(connectionString));
@@ -12,16 +13,16 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<AuthenticationDbContext>(options =>
+    options.UseSqlServer(authenticationConnectionString));
 
 builder.Services.AddDbContext<FilesDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(fileConnectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<AuthenticationDbContext>();
 
 builder.Services.AddControllersWithViews();
 
