@@ -29,7 +29,7 @@ namespace WebApp.Controllers
                 {
                     if (formFile.Length > 0)
                     {
-                        string filePath = Path.Combine(Path.GetFullPath("UploadedFiles"), userId + Path.GetFileName(formFile.FileName));
+                        string filePath = Path.Combine(Path.GetFullPath("UploadedFiles"), Guid.NewGuid().ToString() + Path.GetFileName(formFile.FileName));
                         filePaths.Add(filePath);
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
