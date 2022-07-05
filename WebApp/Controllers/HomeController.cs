@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
 using WebApp.Data;
@@ -26,9 +27,16 @@ namespace WebApp.Controllers
             return View(FileList);
         }
 
+        // Show specific file metadata based on the file id
+        [Authorize]
         public IActionResult FileMetadata(int file)
         {
-            IEnumerable<File>? CurrentFile = _files.File?.Where(x => x.Id == file);
+            // Get the metadata of a file the user has access to
+            IEnumerable<File>? CurrentFile = 
+                _files.File?.Where(
+                    x => x.Id == file 
+                    && x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             return PartialView("_FileMetadata", CurrentFile);
         }
 

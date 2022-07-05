@@ -19,26 +19,11 @@ namespace WebApp.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public ActionResult UploadFile()
-        {
-            return View();
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task<ActionResult> UploadFile(FormModel model)
+        // upload helper to upload a file to local file storage
+        private async Task<bool> UploadFileHelper(List<IFormFile> files, string userId, FormModel model)
         {
             try
             {
-                List<IFormFile> files = model.files;
-                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
                 var filePaths = new List<string>();
                 foreach (IFormFile formFile in files)
                 {
@@ -65,7 +50,40 @@ namespace WebApp.Controllers
                         _context.SaveChanges();
                     }
                 }
-                return View();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult UploadFile()
+        {
+            return View();
+        }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult> UploadFile(FormModel model)
+        {
+            try
+            {
+                List<IFormFile> files = model.files;
+                string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var status = await UploadFileHelper(files,userId, model);
+                if(status)
+                {
+                    return View();
+                }
+                return View("Error");
             }
             catch
             {

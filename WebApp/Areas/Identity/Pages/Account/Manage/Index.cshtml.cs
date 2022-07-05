@@ -38,6 +38,10 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
         [TempData]
         public string StatusMessage { get; set; }
 
+        // error message
+        [TempData]
+        public string ErrorMessage { get; set; }
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -69,6 +73,11 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessage);
+            }
 
             Username = userName;
             Input = new InputModel
@@ -110,7 +119,8 @@ namespace WebApp.Areas.Identity.Pages.Account.Manage
                 var setNameResult = await _userManager.SetUserNameAsync(user, Input.Username);
                 if (!setNameResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set username.";
+                    ErrorMessage = "Duplicate username.";
+                    return RedirectToPage();
                 }
                 Username = Input.Username;
             }

@@ -8,10 +8,12 @@ using WebApp.Models;
 
 namespace WebApp.Controllers
 {
+    // DownloadController to serve the file user has requested
     public class DownloadController : Controller
     {
         private readonly ILogger<UploadController> _logger;
 
+        // Get file from the server file storage as byte format
         byte[] GetFile(string s)
         {
             System.IO.FileStream fs = System.IO.File.OpenRead(s);
@@ -27,6 +29,7 @@ namespace WebApp.Controllers
             _logger = logger;
         }
 
+        // Request to download file
         [Authorize]
         public ActionResult DownloadFile(string filePath,string fileName)
         {

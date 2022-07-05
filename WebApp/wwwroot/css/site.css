@@ -20,3 +20,9 @@ body {
 td{
     padding: 0 15px; 
 }
+
+.centre-left{
+    margin-left: auto;
+    margin-right: auto;
+    padding-right: 15%;
+}
