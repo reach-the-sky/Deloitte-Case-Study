@@ -22,40 +22,48 @@ namespace WebApp.Controllers
         // upload helper to upload a file to local file storage
         private async Task<bool> UploadFileHelper(List<IFormFile> files, string userId, FormModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var filePaths = new List<string>();
-                foreach (IFormFile formFile in files)
+                try
                 {
-                    if (formFile.Length > 0)
+                    var filePaths = new List<string>();
+                    foreach (IFormFile formFile in files)
                     {
-                        string filePath = Path.Combine(Path.GetFullPath("UploadedFiles"), Guid.NewGuid().ToString() + Path.GetFileName(formFile.FileName));
-                        filePaths.Add(filePath);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        if (formFile.Length > 0)
                         {
-                            await formFile.CopyToAsync(stream);
-                        }
+                            string filePath = Path.Combine(Path.GetFullPath("UploadedFiles"), Guid.NewGuid().ToString() + Path.GetFileName(formFile.FileName));
+                            filePaths.Add(filePath);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await formFile.CopyToAsync(stream);
+                            }
 
-                        _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
-                        var f = new WebApp.Models.FileModel()
-                        {
-                            Name = formFile.FileName,
-                            Extension = formFile.ContentType,
-                            UpdatedDate = model.metadata,
-                            Size = (int)formFile.Length,
-                            Path = Path.GetFileName(filePath),
-                            UserId = userId,
-                        };
-                        _context.Add(f);
-                        _context.SaveChanges();
+                            _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
+                            var f = new WebApp.Models.FileModel()
+                            {
+                                Name = formFile.FileName,
+                                Extension = formFile.ContentType,
+                                UpdatedDate = model.metadata,
+                                Size = (int)formFile.Length,
+                                Path = Path.GetFileName(filePath),
+                                UserId = userId,
+                            };
+                            _context.Add(f);
+                            _context.SaveChanges();
+                        }
                     }
+                    return true;
                 }
-                return true;
-            }
-            catch
+                catch
+                {
+                    return false;
+                }
+            } 
+            else
             {
                 return false;
             }
+            
         }
 
         public IActionResult Index()
@@ -83,7 +91,7 @@ namespace WebApp.Controllers
                 {
                     return View();
                 }
-                return View("Error");
+                return View(model);
             }
             catch
             {
