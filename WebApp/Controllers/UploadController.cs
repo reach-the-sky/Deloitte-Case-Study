@@ -22,19 +22,22 @@ namespace WebApp.Controllers
         // upload helper to upload a file to local file storage
         private async Task<bool> UploadFileHelper(List<IFormFile> files, string userId, FormModel model)
         {
-            try
+            if (ModelState.IsValid)
             {
-                var filePaths = new List<string>();
-                foreach (IFormFile formFile in files)
+                try
                 {
-                    if (formFile.Length > 0)
+                    var filePaths = new List<string>();
+                    foreach (IFormFile formFile in files)
                     {
-                        string filePath = Path.Combine(Path.GetFullPath("UploadedFiles"), Guid.NewGuid().ToString() + Path.GetFileName(formFile.FileName));
-                        filePaths.Add(filePath);
-                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        if (formFile.Length > 0)
                         {
-                            await formFile.CopyToAsync(stream);
-                        }
+                            string filePath = Path.Combine(Path.GetFullPath("UploadedFiles"), Guid.NewGuid().ToString() + Path.GetFileName(formFile.FileName));
+                            filePaths.Add(filePath);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                await formFile.CopyToAsync(stream);
+                            }
+
 
                         _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
                         var f = new WebApp.Models.FileModel()
@@ -50,14 +53,19 @@ namespace WebApp.Controllers
                         _context.SaveChanges();
                         TempData["successMessage"] = "File uploaded successfully.";
                     }
+                    return true;
                 }
-                return true;
-            }
-            catch
+                catch
+                {
+                    return false;
+                }
+            } 
+            else
             {
                 TempData["errorMessage"] = "Couldnt upload file.";
                 return false;
             }
+            
         }
 
         public IActionResult Index()
@@ -81,6 +89,7 @@ namespace WebApp.Controllers
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var status = await UploadFileHelper(files,userId, model);
+
                 return View();
             }
             catch

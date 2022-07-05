@@ -2,6 +2,7 @@
     ViewData["Title"] = "UploadFile";
     Layout = "/Views/Shared/_Layout.cshtml";
 }
+@model FormModel
 
 <h1>UploadFile</h1>
 
@@ -9,9 +10,15 @@
     <div class="form-group">
         <p>Upload one or more files using this form:</p>
         <div class="input-group">
-            <input class="form-control" type="file" name="files" id="myFile" onchange="getFileDate()" />
+            <input asp-for="files" class="form-control" type="file" accept=".pbix" name="files" id="myFile" onchange="getFileDate()" />
             <button class="btn btn-primary" type="submit" value="Upload">submit</button>
         </div>
+            <span asp-validation-for="files" class="text-danger"></span>
     </div>
-    <input name="metadata" type="datetime-local" id="metadata" hidden />
+    <input name="metadata" type="datetime-local" id="metadata" hidden/>
 </form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
