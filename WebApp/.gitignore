@@ -6,6 +6,8 @@
 UploadedFiles/*
 */appsettings.json
 appsettings.json
+WebApp\appsettings.json
+WebApp\appsettings.Development.json
 Migrations/*
 
 # User-specific files

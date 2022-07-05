@@ -38,19 +38,20 @@ namespace WebApp.Controllers
                                 await formFile.CopyToAsync(stream);
                             }
 
-                            _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
-                            var f = new WebApp.Models.FileModel()
-                            {
-                                Name = formFile.FileName,
-                                Extension = formFile.ContentType,
-                                UpdatedDate = model.metadata,
-                                Size = (int)formFile.Length,
-                                Path = Path.GetFileName(filePath),
-                                UserId = userId,
-                            };
-                            _context.Add(f);
-                            _context.SaveChanges();
-                        }
+
+                        _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
+                        var f = new WebApp.Models.FileModel()
+                        {
+                            Name = formFile.FileName,
+                            Extension = formFile.ContentType,
+                            UpdatedDate = model.metadata,
+                            Size = (int)formFile.Length,
+                            Path = Path.GetFileName(filePath),
+                            UserId = userId,
+                        };
+                        _context.Add(f);
+                        _context.SaveChanges();
+                        TempData["successMessage"] = "File uploaded successfully.";
                     }
                     return true;
                 }
@@ -61,6 +62,7 @@ namespace WebApp.Controllers
             } 
             else
             {
+                TempData["errorMessage"] = "Couldnt upload file.";
                 return false;
             }
             
@@ -87,11 +89,8 @@ namespace WebApp.Controllers
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var status = await UploadFileHelper(files,userId, model);
-                if(status)
-                {
-                    return View();
-                }
-                return View(model);
+
+                return View();
             }
             catch
             {
