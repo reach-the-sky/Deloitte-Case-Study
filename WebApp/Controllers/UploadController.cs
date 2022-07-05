@@ -48,12 +48,14 @@ namespace WebApp.Controllers
                         };
                         _context.Add(f);
                         _context.SaveChanges();
+                        TempData["successMessage"] = "File uploaded successfully.";
                     }
                 }
                 return true;
             }
             catch
             {
+                TempData["errorMessage"] = "Couldnt upload file.";
                 return false;
             }
         }
@@ -79,11 +81,7 @@ namespace WebApp.Controllers
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
                 var status = await UploadFileHelper(files,userId, model);
-                if(status)
-                {
-                    return View();
-                }
-                return View("Error");
+                return View();
             }
             catch
             {
