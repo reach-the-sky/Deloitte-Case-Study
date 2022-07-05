@@ -10,11 +10,14 @@
 
 </script>
 
+
 @*Only show uploded files if the user is logged in*@
 @if (SignInManager.IsSignedIn(User))
 {
+    <partial name="_Notification"/>
     <div class="text-center">
         <h1 class="display-4">Welcome @User.Identity.Name</h1>
+        
         <div class="container">
             <div class="row">
                 <div class="col-3">

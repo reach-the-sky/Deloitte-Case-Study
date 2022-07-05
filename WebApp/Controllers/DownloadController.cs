@@ -38,6 +38,7 @@ namespace WebApp.Controllers
                 string fullName = Path.Combine(Path.GetFullPath("UploadedFiles"), filePath);
 
                 byte[] fileBytes = GetFile(fullName);
+                TempData["success"] = "File Downloaded Successfully";
                 return File(
                     fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
             }

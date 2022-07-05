@@ -48,6 +48,7 @@ namespace WebApp.Controllers
                         };
                         _context.Add(f);
                         _context.SaveChanges();
+                        TempData["success"] = "File Uploaded Successfully";
                     }
                 }
                 return true;
