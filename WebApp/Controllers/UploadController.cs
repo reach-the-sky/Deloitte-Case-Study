@@ -39,24 +39,28 @@ namespace WebApp.Controllers
                             }
 
 
-                        _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
-                        var f = new WebApp.Models.FileModel()
-                        {
-                            Name = formFile.FileName,
-                            Extension = formFile.ContentType,
-                            UpdatedDate = model.metadata,
-                            Size = (int)formFile.Length,
-                            Path = Path.GetFileName(filePath),
-                            UserId = userId,
-                        };
-                        _context.Add(f);
-                        _context.SaveChanges();
-                        TempData["successMessage"] = "File uploaded successfully.";
+                            _logger.LogTrace(message: $"Logging User Identity: {User.Identity?.ToString()}");
+                            var f = new WebApp.Models.FileModel()
+                            {
+                                Name = formFile.FileName,
+                                Extension = formFile.ContentType,
+                                UpdatedDate = model.metadata,
+                                Size = (int)formFile.Length,
+                                Path = Path.GetFileName(filePath),
+                                UserId = userId,
+                            };
+                            _context.Add(f);
+                            _context.SaveChanges();
+                        }
                     }
+                    
+                    TempData["successMessage"] = "File uploaded successfully.";
+                    
                     return true;
                 }
                 catch
                 {
+                    TempData["errorMessage"] = "Couldnt upload file.";
                     return false;
                 }
             } 
@@ -88,6 +92,7 @@ namespace WebApp.Controllers
                 List<IFormFile> files = model.files;
                 string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+                // upload files to local storage
                 var status = await UploadFileHelper(files,userId, model);
 
                 return View();
