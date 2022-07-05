@@ -29,7 +29,7 @@
                         <div class="list-group">
                             @foreach (var obj in Model)
                             {
-                                <li class="list-group-item list-group-item-action" onclick="showMetadata(this, @obj.Id)">@obj.Name</li>
+                                <a href="#" class="list-group-item list-group-item-action" onclick="showMetadata(this, @obj.Id)">@obj.Name</a>
                             }
                         </div>
                     }
