@@ -10,6 +10,13 @@ A Web Portal that can be used to upload files and display the metadata to the us
 * Upload page
 * Metadata display
 
+### Features Made
+* User login/register
+* Upload files
+* Delete files
+* Admin Page
+* Metadata display
+
 ### Installation
 > * git clone https://github.com/reach-the-sky/Deloitte-Case-Study
 * Install dotnet version 6
