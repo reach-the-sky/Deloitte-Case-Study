@@ -29,13 +29,14 @@
                         <div class="list-group">
                             @foreach (var obj in Model)
                             {
-                                <a href="#" class="list-group-item list-group-item-action" onclick="showMetadata(this, @obj.Id)">@obj.Name</a>
+                                <a href="#" class="list-group-item list-group-item-action" onclick="showMetaData(@obj.Id)">@obj.Name</a>
                             }
                         </div>
                     }
 
                 </div>
                 <div id="metadata" class="col">
+                    @Html.Partial("~/Views/Shared/_FileMetadata.cshtml", Model)
                 </div>
             </div>
         </div>

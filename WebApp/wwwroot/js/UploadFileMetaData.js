@@ -1,9 +1,13 @@
 ﻿
 // show metadata of uploaded file
-var showMetadata = function (e, fileId) {
-    var url = "/Home/FileMetadata?file=" + fileId;
-    $("a.active").removeClass("active");
-    e.classList.add("active");
-    $("#metadata").load(url);
+function showMetaData(id) {
+    var trs = document.getElementsByTagName("tr");
+    for (let i = 0; i < trs.length; i++) {
+        trs[i].style.display = "none";
+    }
 
+    var tr = document.getElementsByClassName(id);
+    for (let i = 0; i < tr.length; i++) {
+        tr[i].style.display = "block";
+    }
 }

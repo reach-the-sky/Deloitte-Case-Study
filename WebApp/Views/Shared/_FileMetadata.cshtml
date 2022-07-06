@@ -10,20 +10,20 @@
     <tbody>
         @foreach (var obj in Model)
         {
-            <tr>
+            <tr class="@obj.Id" style="display: none">
                 <td><span class="badge bg-primary w-100 text-left">File Name:</span></td>
                 <td>@obj.Name</td>
             </tr>
-            <tr>
+            <tr class="@obj.Id" style="display: none">
                 <td><span class="badge bg-primary">Created On:</span></td>
                 <td>@obj.UpdatedDate.ToString("dd-MM-yy h:mm tt")</td>
             </tr>
-            <tr>
+            <tr class="@obj.Id" style="display: none">
                 <td><span class="badge bg-primary w-100 text-left">Size:</span></td>
                 <td>@(obj.Size / 1024) KB</td>
             </tr>
 
-            <tr>
+            <tr class="@obj.Id" style="display: none">
                 <td><span class="badge bg-primary w-100 text-left">Download:</span></td>
                 <td> <a href="~/Download/DownloadFile?filePath=@obj.Path&fileName=@obj.Name">⬇️ </a></td>
             </tr>
