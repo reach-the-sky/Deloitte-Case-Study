@@ -20,11 +20,16 @@ A Web Portal that can be used to upload files and display the metadata to the us
 ### Installation
 > * git clone https://github.com/reach-the-sky/Deloitte-Case-Study
 * Install dotnet version 6
+* Use Visual Studio 2022 
 * Update the database connection strings **"AuthenticationDBConnection"** and **"FileDBConnection"** in **appsettings.json** file
 > * Add-Migration "Initial Commit" -Context AuthenticationDbContext
 > * update-database -Context AuthenticationDbContext
 > * Add-Migration "Initial Commit" -Context FilesDbContext
 > * update-database -Context FilesDbContext
+
+or
+
+Instead of migration you can import the .mdf files
 
 
 ### Images
