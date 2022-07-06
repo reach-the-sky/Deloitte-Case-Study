@@ -19,11 +19,12 @@ namespace WebApp.Controllers
             _files = files;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             // Filter the files for a the logged in user
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            IEnumerable<File>? FileList = _files.File?.Where(x => x.UserId == userId);
+            IEnumerable<File>? FileList = _files.File?.Where(x => (x.UserId == userId || User.IsInRole("Admin")));
             return View(FileList);
         }
 
@@ -35,7 +36,7 @@ namespace WebApp.Controllers
             IEnumerable<File>? CurrentFile = 
                 _files.File?.Where(
                     x => x.Id == file 
-                    && x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier));
+                    && (x.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier) || User.IsInRole("Admin")));
 
             return PartialView("_FileMetadata", CurrentFile);
         }
