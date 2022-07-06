@@ -29,8 +29,9 @@ A Web Portal that can be used to upload files and display the metadata to the us
 
 ### Images
 <img src="images/login_page.png" />
-<img src="images/list_of_files.png" />
-<img src="images/upload_page.png" />
+<img src="images/Deloitte-home.png" />
+<img src="images/Deloitte-Admin.png" />
+<img src="images/Deloitte-Profile.png" />
 
 
 Thank you😁.
