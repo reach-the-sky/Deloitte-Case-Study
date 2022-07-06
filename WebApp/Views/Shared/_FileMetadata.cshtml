@@ -24,8 +24,18 @@
             </tr>
 
             <tr class="@obj.Id" style="display: none">
-                <td><span class="badge bg-primary w-100 text-left">Download:</span></td>
-                <td> <a href="~/Download/DownloadFile?filePath=@obj.Path&fileName=@obj.Name">⬇️ </a></td>
+                <td><span class="badge bg-primary w-100 text-left">Options:</span></td>
+                <td> 
+                    <div style="display: flex">
+                        <div title="Download">
+                            <a href="~/DownloadDelete/DownloadFile?filePath=@obj.Path&fileName=@obj.Name">⬇️</a>
+                        </div> 
+                        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  
+                        <div title="Delete">
+                            <a href="~/DownloadDelete/DeleteFile?filePath=@obj.Path&id=@obj.Id">❌</a>
+                        </div> 
+                    </div>
+                </td>
             </tr>
 
         }

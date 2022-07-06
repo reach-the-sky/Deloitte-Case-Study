@@ -9,9 +9,10 @@ using WebApp.Models;
 namespace WebApp.Controllers
 {
     // DownloadController to serve the file user has requested
-    public class DownloadController : Controller
+    public class DownloadDeleteController : Controller
     {
         private readonly ILogger<UploadController> _logger;
+        private readonly FilesDbContext _context;
 
         // Get file from the server file storage as byte format
         byte[] GetFile(string s)
@@ -24,14 +25,15 @@ namespace WebApp.Controllers
             return data;
         }
 
-        public DownloadController(ILogger<UploadController> logger)
+        public DownloadDeleteController(ILogger<UploadController> logger, FilesDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         // Request to download file
         [Authorize]
-        public ActionResult DownloadFile(string filePath,string fileName)
+        public ActionResult DownloadFile(string filePath, string fileName)
         {
             try
             {
@@ -40,6 +42,44 @@ namespace WebApp.Controllers
 
                 return File(
                     fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            catch
+            {
+                return View(
+                    new ErrorViewModel
+                    {
+                        RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                    });
+            }
+        }
+
+        // Request to delete a file
+        [Authorize]
+        public ActionResult DeleteFile(string filePath, int id)
+        {
+            try
+            {
+                string fullName = Path.Combine(Path.GetFullPath("UploadedFiles"), filePath);
+                if (System.IO.File.Exists(fullName))
+                {
+                    System.IO.File.Delete(fullName);
+                }
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                FileModel file;
+                if (User.IsInRole("Admin"))
+                {
+                    file = new FileModel() { Id = id, };
+                }
+                else
+                {
+                    file = new FileModel() { UserId = userId, Id = id, };
+
+                }
+                _context.Remove(file);
+                _context.SaveChanges();
+
+                TempData["successMessage"] = "Deleted file";
+                return RedirectToAction("Index","Home");
             }
             catch
             {
