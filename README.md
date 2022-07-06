@@ -27,9 +27,8 @@ A Web Portal that can be used to upload files and display the metadata to the us
 > * Add-Migration "Initial Commit" -Context FilesDbContext
 > * update-database -Context FilesDbContext
 
-or
 
-Instead of migration you can import the .mdf files
+To look at database you can import the .mdf files in ~/Database folder, but the upladed files will be missing as they are not in git. 
 
 
 ### Images
