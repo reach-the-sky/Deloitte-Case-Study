@@ -22,6 +22,7 @@ namespace WebApp.Controllers
             int br = fs.Read(data, 0, data.Length);
             if (br != fs.Length)
                 throw new System.IO.IOException(s);
+            fs.Close();
             return data;
         }
 
@@ -60,10 +61,6 @@ namespace WebApp.Controllers
             try
             {
                 string fullName = Path.Combine(Path.GetFullPath("UploadedFiles"), filePath);
-                if (System.IO.File.Exists(fullName))
-                {
-                    System.IO.File.Delete(fullName);
-                }
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 FileModel file;
                 if (User.IsInRole("Admin"))
@@ -73,10 +70,20 @@ namespace WebApp.Controllers
                 else
                 {
                     file = new FileModel() { UserId = userId, Id = id, };
+                }
 
+                if (file.Equals("null"))
+                {
+                    TempData["errorMessage"] = "Unable to delete file";
+                    return RedirectToAction("Index", "Home");
                 }
                 _context.Remove(file);
                 _context.SaveChanges();
+
+                if (System.IO.File.Exists(fullName))
+                {
+                    System.IO.File.Delete(fullName);
+                }
 
                 TempData["successMessage"] = "Deleted file";
                 return RedirectToAction("Index","Home");

@@ -1,5 +1,6 @@
 ﻿namespace WebApp.Models
 {
+    // file format in database
     public class FileModel
     {
         public int Id { get; set; }
